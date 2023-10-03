@@ -8,6 +8,7 @@ public class Lose : MonoBehaviour
     [SerializeField] private Text countHealth;
     [SerializeField] private Text scoreGT;
     [SerializeField] private Text record;
+    [SerializeField] private Text currentRecord;
     [SerializeField] private GameObject explosionEffect;
     public int _health;
     
@@ -64,5 +65,6 @@ public class Lose : MonoBehaviour
     private void ShowRecord()
     {
         record.text = PlayerPrefs.GetInt("Score").ToString();
+        currentRecord.text = scoreGT.text;
     }
 }
