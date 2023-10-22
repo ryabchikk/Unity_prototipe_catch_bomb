@@ -8,11 +8,12 @@ public class CatchZone : MonoBehaviour
 {
     [SerializeField] private Text scoreGT;
     [SerializeField] private GameObject gun;
+    [SerializeField] private int POINTS = 100;
 
     private GunParametrsClass gunParametrs;
     private int counter = 0;
 
-    private const int POINTS = 100;
+    
     
     private void Start()
     {

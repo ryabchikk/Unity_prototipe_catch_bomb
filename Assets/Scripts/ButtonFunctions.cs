@@ -25,9 +25,9 @@ public class ButtonFunctions : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-
-    public void SetVolume(float volume)
+    
+    public void PauseGame(float time)
     {
-        
+        Time.timeScale = time;
     }
 }
