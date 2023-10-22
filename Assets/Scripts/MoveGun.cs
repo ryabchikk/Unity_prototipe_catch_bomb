@@ -14,7 +14,7 @@ public class MoveGun : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject bombPrefab;
-
+    [SerializeField] private AudioSource sound;
 
     [HideInInspector] public GunParametrsClass gunParametrs;
     
@@ -38,6 +38,7 @@ public class MoveGun : MonoBehaviour
     {
         GameObject bomb = Instantiate<GameObject>(bombPrefab);
         bomb.transform.position = transform.position;
+        sound.Play();
         Invoke("DropBomb", gunParametrs.getSecondsBetweenBombDrops());
     } 
 }

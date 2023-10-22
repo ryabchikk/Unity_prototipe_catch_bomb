@@ -10,6 +10,8 @@ public class Lose : MonoBehaviour
     [SerializeField] private Text record;
     [SerializeField] private Text currentRecord;
     [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private AudioSource sound;
+
     public int _health;
     
     private void Start()
@@ -49,6 +51,7 @@ public class Lose : MonoBehaviour
 
         if (collideWith.tag == "Bomb") { 
             Instantiate(explosionEffect, collideWith.transform.position, Quaternion.identity);
+            sound.Play();
             Destroy(collideWith);
             ApplyDamage();
            
