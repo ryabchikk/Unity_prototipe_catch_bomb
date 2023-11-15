@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class ComplexityClass
 {
-    private const int COUNT = 1000;
+    private const int COUNT = 10;
     private const float MIN_TIME_BOMB_DROPS = 0.35f;
     private const float MAX_SPEED = 6f;
 
 
-    public static void ChacngeComplexity(GunParametrsClass gunParametrs, ref int counter)
+    public static void ChangeComplexity(GunParametrsClass gunParametrs,int points, ref int counter)
     {
-        if (counter == COUNT) {
+        if (counter >= COUNT) {
             
             if (!CheckMaxComplexitySpeed(gunParametrs)) {
                 ChangeSpeedParameter(gunParametrs);
@@ -24,7 +24,7 @@ public static class ComplexityClass
             counter = 0;
         }
         else {
-            counter += 100;
+            counter += points;
         }
     }
 

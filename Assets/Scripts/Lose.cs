@@ -1,73 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class Lose : MonoBehaviour
 {
-    [SerializeField] private GameObject deathScreen;
-    [SerializeField] private Text countHealth;
-    [SerializeField] private Text scoreGT;
-    [SerializeField] private Text record;
-    [SerializeField] private Text currentRecord;
-    [SerializeField] private GameObject explosionEffect;
-    [SerializeField] private AudioSource sound;
-
-    public int _health;
-    
-    private void Start()
-    {
-        _health=int.Parse(countHealth.text);
-        PlayerPrefs.GetInt("Score");
-    }
-    
-    private void ApplyDamage()
-    {
-        if (_health == 1) {
-            TakeLife();
-            Die();
-        }
-        else {
-            TakeLife();
-        }
-    }
-
-    private void TakeLife() 
-    {
-        _health--;
-        countHealth.text = _health.ToString();
-    }
-
-    private void Die() 
-    {
-        SaveMaxRecord();
-        ShowRecord();
-        deathScreen.SetActive(true);
-        Time.timeScale = 0;
-    }
+    [SerializeField] private HealthAndScoreController healthAndScoreController;
 
     private void OnCollisionEnter(Collision collision)
     {
         GameObject collideWith = collision.gameObject;
 
-        if (collideWith.tag == "Bomb") { 
-            Instantiate(explosionEffect, collideWith.transform.position, Quaternion.identity);
-            sound.Play();
-            Destroy(collideWith);
-            ApplyDamage();
-           
+        if(collideWith.GetComponent<CatchObject>() != null ) {
+            CatchObject catchObject = collideWith.GetComponent<CatchObject>();
+            
+            if (catchObject.GetEffect() != null) { 
+                GameObject effect = Instantiate(catchObject.GetEffect(), collideWith.transform.position, Quaternion.identity);
+                effect.transform.parent = collideWith.transform;
+            }
+            
+            if (catchObject.GetBool()) {
+                healthAndScoreController.ApplyDamage(0);
+            }
+            else { 
+                healthAndScoreController.ApplyDamage(catchObject.GetHealthChange());
+            }
+
+            catchObject.PlaySoundAndDestroy();
         }
     }
 
-    private void SaveMaxRecord()
-    {
-        if (int.Parse(scoreGT.text) > PlayerPrefs.GetInt("Score")) {
-            PlayerPrefs.SetInt("Score", int.Parse(scoreGT.text));
-        }
-    }
-
-    private void ShowRecord()
-    {
-        record.text = PlayerPrefs.GetInt("Score").ToString();
-        currentRecord.text = scoreGT.text;
-    }
 }
